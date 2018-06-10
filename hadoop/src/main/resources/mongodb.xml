@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	
+	<!-- mongodb 输入输出 -->
+	<property>
+		<name>mongo.input.uri</name>
+		<value>mongodb://192.168.30.130:28720/mofangdb_report.resultTxt</value>
+	</property>
+	<property>
+		<name>mongo.output.uri</name>
+		<value>mongodb://192.168.30.130:28720/mofangdb_report.hadoopOutput</value>
+	</property>
+	
+	<!-- 设置reduce内存 -->
+	<property>
+		<name>mapreduce.reduce.memory.mb</name>
+		<value>4096</value>
+	</property>
+</configuration>
