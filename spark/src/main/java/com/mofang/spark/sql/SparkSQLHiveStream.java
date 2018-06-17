@@ -1,4 +1,4 @@
-package com.mofang.spark.hive;
+package com.mofang.spark.sql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,22 +9,23 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.hive.HiveContext;
 import org.apache.spark.sql.DataFrame;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
-import scala.Function0;
 
-public class SparkHiveStream {
+public class SparkSQLHiveStream {
     
     public static void main(String args[]) {
         
-        SparkConf sparkConf = new SparkConf().setAppName("SparkHiveStream");
+        SparkConf sparkConf = new SparkConf().setAppName("SparkSQLHiveStream");
         
         JavaSparkContext context=new JavaSparkContext(sparkConf);
-        
+
+        //SQLContext sqlContext=new SQLContext(context);
         HiveContext hiveContext=new HiveContext(context);
 
         DataFrame frame=hiveContext.sql("show tables");
@@ -37,7 +38,7 @@ public class SparkHiveStream {
     }
 
     /**
-     * 將DataFrame寫入Hive
+     * 将DataFrame写入Hive
      * @param hiveContext
      */
     public  static  void insertData(HiveContext hiveContext){
@@ -51,7 +52,7 @@ public class SparkHiveStream {
 
 
     /**
-     * spark sql mysql 數據加載
+     * spark sql mysql 数据加载
      * @param hiveContext
      * @return
      */
@@ -64,7 +65,7 @@ public class SparkHiveStream {
     }
 
     /**
-     * 將原始文件加載成 DataFrame
+     * 将原始文件加载成 DataFrame
      * @param sc
      * @param hiveContext
      * @return
@@ -93,21 +94,21 @@ public class SparkHiveStream {
         /*** 第三步：基于以后的MetaData以及RDD<Row>来构造DataFrame*/
         DataFrame personsDF = hiveContext.createDataFrame(personsRDD, structType);
 
-       /* *//** 第四步：注册成为临时表以供后续的SQL查询操作*//*
-        personsDF.registerTempTable("persons");
-        *//** 第五步，进行数据的多维度分析*//*
-        DataFrame result = hiveContext.sql("select * from persons where age >20");
-        *//**第六步：对结果进行处理，包括由DataFrame转换成为RDD<Row>，以及结构持久化*//*
-        List<Row> listRow = result.javaRDD().collect();
-        for(Row row : listRow){
+       /** 第四步：注册成为临时表以供后续的SQL查询操作*/
+        /*personsDF.registerTempTable("persons");*/
+        /** 第五步，进行数据的多维度分析*/
+        /*DataFrame result = hiveContext.sql("select * from persons where age >20");*/
+        /**第六步：对结果进行处理，包括由DataFrame转换成为RDD<Row>，以及结构持久化*/
+        /* List<Row> listRow = result.javaRDD().collect();
+            for(Row row : listRow){
             System.out.println(row);
-        }*/
+            }*/
         return personsDF;
     }
 
 
     /**
-     * 自定義UDF
+     * 自定义UDF
      * @param hiveContext
      */
     public  static  void createUDF(HiveContext hiveContext){
